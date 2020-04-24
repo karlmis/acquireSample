@@ -1,14 +1,13 @@
 package be.kapture.tdd.acquire;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
-@Ignore
+@Disabled
 public class BoardTest {
 
     private static final Coordinates COORDINATES2 = Coordinates.create(2, 2);

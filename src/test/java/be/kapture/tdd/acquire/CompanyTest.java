@@ -1,8 +1,8 @@
 package be.kapture.tdd.acquire;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.when;
 
-@Ignore
+@Disabled
 public class CompanyTest {
 
     private static final Coordinates COORDINATES_A1 = Coordinates.create(1, 1);
@@ -31,7 +31,7 @@ public class CompanyTest {
     @Mock
     private Coordinates coordinatesCentralB0, coordinatesNeighbourB1;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(coordinatesCentralA0.getNeighbours()).thenReturn(List.of(coordinatesNeighbourA1, coordinatesNeighbourA2));

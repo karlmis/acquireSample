@@ -1,16 +1,14 @@
 package be.kapture.tdd.acquire;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static be.kapture.tdd.acquire.Coordinates.MAX_X;
 import static be.kapture.tdd.acquire.Coordinates.MAX_Y;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-@Ignore
+import static org.assertj.core.api.Assertions.*;
+@Disabled
 public class CoordinatesTest {
 
     @Test
