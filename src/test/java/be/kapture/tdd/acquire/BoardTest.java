@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
@@ -28,7 +29,7 @@ public class BoardTest {
         Board board = new Board();
         assertThat(board.getOccupiedNeighbours(Coordinates.create(2, 2))).isEmpty();
 
-        List<Coordinates> neighbours = List.of(
+        List<Coordinates> neighbours = asList(
                 Coordinates.create(2 - 1, 2),
                 Coordinates.create(2 + 1, 2),
                 Coordinates.create(2, 2 - 1));

@@ -6,10 +6,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 import static be.kapture.tdd.acquire.CompanyId.AMERICA;
 import static be.kapture.tdd.acquire.CompanyId.ZETA;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,63 +31,63 @@ public class CompanyTest {
     private Coordinates coordinatesCentralB0, coordinatesNeighbourB1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        when(coordinatesCentralA0.getNeighbours()).thenReturn(List.of(coordinatesNeighbourA1, coordinatesNeighbourA2));
+        when(coordinatesCentralA0.getNeighbours()).thenReturn(asList(coordinatesNeighbourA1, coordinatesNeighbourA2));
         when(coordinatesNeighbourA1.getNeighbours()).thenReturn(singletonList(coordinatesCentralA0));
         when(coordinatesNeighbourA2.getNeighbours()).thenReturn(singletonList(coordinatesCentralA0));
 
-        when(coordinatesCentralB0.getNeighbours()).thenReturn(List.of(coordinatesNeighbourB1));
+        when(coordinatesCentralB0.getNeighbours()).thenReturn(singletonList(coordinatesNeighbourB1));
         when(coordinatesNeighbourB1.getNeighbours()).thenReturn(singletonList(coordinatesCentralB0));
 
     }
 
     @Test
     public void Company_NullSafe() {
-        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(null, List.of(COORDINATES_A1, COORDINATES_A2)));
+        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(null, asList(COORDINATES_A1, COORDINATES_A2)));
         assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, null));
     }
 
     @Test
     public void Company_CoordinatesSize() {
         assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, emptyList()));
-        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, List.of(COORDINATES_A1)));
+        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, singletonList(COORDINATES_A1)));
     }
 
     @Test
     public void coordinates_Neighbours() {
-        Company.create(AMERICA, List.of(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesNeighbourA2));
+        Company.create(AMERICA, asList(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesNeighbourA2));
 
-        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, List.of(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesFarAway)));
-        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, List.of(coordinatesCentralA0, coordinatesNeighbourA2, coordinatesFarAway)));
+        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, asList(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesFarAway)));
+        assertThatIllegalArgumentException().isThrownBy(() -> Company.create(AMERICA, asList(coordinatesCentralA0, coordinatesNeighbourA2, coordinatesFarAway)));
     }
 
     @Test
     public void coordinates_NeighboursDisjoint() {
         assertThatIllegalArgumentException().isThrownBy(() ->
-                Company.create(AMERICA, List.of(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesNeighbourA2, coordinatesCentralB0, coordinatesNeighbourB1)));
+                Company.create(AMERICA, asList(coordinatesCentralA0, coordinatesNeighbourA1, coordinatesNeighbourA2, coordinatesCentralB0, coordinatesNeighbourB1)));
 
-        Company.create(AMERICA, List.of(COORDINATES_A1, COORDINATES_A3, COORDINATES_A2));
+        Company.create(AMERICA, asList(COORDINATES_A1, COORDINATES_A3, COORDINATES_A2));
     }
 
 
     @Test
     public void isNeighbour() {
-        Company.create(AMERICA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company.create(AMERICA, asList(COORDINATES_A1, COORDINATES_A2));
     }
 
     @Test
     public void getPrice() {
-        Company companyAmerica3 = Company.create(AMERICA, List.of(COORDINATES_A1, COORDINATES_A2, COORDINATES_A3));
+        Company companyAmerica3 = Company.create(AMERICA, asList(COORDINATES_A1, COORDINATES_A2, COORDINATES_A3));
         assertThat(companyAmerica3.getPrice()).isEqualTo(AMERICA.getPriceForOneShare(3));
 
-        Company companyZeta2 = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company companyZeta2 = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
         assertThat(companyZeta2.getPrice()).isEqualTo(ZETA.getPriceForOneShare(2));
     }
 
     @Test
     public void isNeighbourOf() {
-        Company company = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company company = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
 
         assertThat(company.isNextTo(COORDINATES_A3)).isTrue();
         assertThat(company.isNextTo(COORDINATES_I12)).isFalse();
@@ -96,7 +95,7 @@ public class CompanyTest {
 
     @Test
     public void add() {
-        Company companyIntialSize2 = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company companyIntialSize2 = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
 
         assertThat(companyIntialSize2.getSize()).isEqualTo(2);
 
@@ -112,7 +111,7 @@ public class CompanyTest {
 
     @Test
     public void shares() {
-        Company company = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company company = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
 
         assertThat(company.getRemainingShares()).isEqualTo(25);
 
@@ -130,7 +129,7 @@ public class CompanyTest {
 
     @Test
     public void shares_AddIllegal() {
-        Company company = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company company = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
 
 
         assertThatIllegalArgumentException().isThrownBy(() -> company.addShares(2));
@@ -142,7 +141,7 @@ public class CompanyTest {
 
     @Test
     public void shares_RemoveIllegal() {
-        Company company = Company.create(ZETA, List.of(COORDINATES_A1, COORDINATES_A2));
+        Company company = Company.create(ZETA, asList(COORDINATES_A1, COORDINATES_A2));
 
         company.removeShares(25);
         assertThatIllegalArgumentException().isThrownBy(() -> company.removeShares(1));
